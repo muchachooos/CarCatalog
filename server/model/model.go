@@ -15,3 +15,6 @@ type DBConf struct {
 	DBName   string `json:"dataBaseName"`
 	Sslmode  string `json:"sslmode"`
 }
+type AddCarsReq struct {
+	RegNums []string `json:"regNums"`
+}
