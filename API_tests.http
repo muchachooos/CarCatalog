@@ -1,0 +1,11 @@
+### Запрос на добавление машины
+POST http://localhost:8080/add_cars
+Content-Type: application/json
+
+{
+  "regNums": [
+    "А123АА150",
+    "И123ИИ150",
+    "С123СС150"
+  ]
+}
