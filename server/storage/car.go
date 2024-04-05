@@ -9,5 +9,6 @@ func (s *Storage) AddCars(cars model.AddCarsReq) error {
 			return err
 		}
 	}
+
 	return nil
 }
