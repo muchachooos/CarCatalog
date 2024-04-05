@@ -37,19 +37,24 @@ func main() {
 		},
 	}
 
+	runServer(server)
+}
+
+func runServer(server handler.Server) {
 	engine := gin.Default()
+
+	engine.POST("/add_cars", server.AddCarsHandler)
 
 	port := ":" + strconv.Itoa(server.Config.Port)
 
-	err = engine.Run(port)
+	err := engine.Run(port)
 	if err != nil {
 		panic(err)
 	}
-
 }
 
 // getDSN функция создаёт строку Data Source Name.
 func getDSN(cfg model.DBConf) string {
-	return fmt.Sprintf("host=postgres port=5432 user=%s password=%s dbname=%s sslmode=%s",
+	return fmt.Sprintf("host=localhost port=5432 user=%s password=%s dbname=%s sslmode=%s",
 		cfg.User, cfg.Password, cfg.DBName, cfg.Sslmode)
 }
