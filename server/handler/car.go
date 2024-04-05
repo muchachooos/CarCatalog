@@ -10,7 +10,7 @@ import (
 func (s *Server) AddCarsHandler(c *gin.Context) {
 	var carsReq model.AddCarsReq
 
-	err := parser.ParseBody(c, carsReq)
+	err := parser.ParseBody(c, &carsReq)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, model.Err{Error: "Parse body error: " + err.Error()})
 		return
