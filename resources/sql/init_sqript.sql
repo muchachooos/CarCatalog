@@ -1,11 +1,9 @@
-DROP TABLE car, owner;
-
-CREATE TABLE IF NOT EXISTS car
+CREATE TABLE IF NOT EXISTS cars
 (
     regNum VARCHAR(255) PRIMARY KEY,
-    mark   VARCHAR(255) NOT NULL,
+    mark   VARCHAR(255),
     model  VARCHAR(255),
-    year   SMALLINT     NOT NULL,
+    year   SMALLINT,
     owner  CHAR(36),
     FOREIGN KEY (owner) REFERENCES owner (id)
 );
