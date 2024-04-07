@@ -16,6 +16,13 @@ func (s *Server) AddCarsHandler(c *gin.Context) {
 		return
 	}
 
+	for i := range carsReq.RegNums {
+		if carsReq.RegNums[i] == "" {
+			c.JSON(http.StatusBadRequest, model.Err{Error: "Empty string"})
+			return
+		}
+	}
+
 	err = s.Storage.AddCars(carsReq)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, model.Err{Error: "Database error: " + err.Error()})
