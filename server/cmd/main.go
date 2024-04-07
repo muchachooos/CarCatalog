@@ -43,6 +43,8 @@ func main() {
 func runServer(server handler.Server) {
 	engine := gin.Default()
 
+	engine.DELETE("/delete_car", server.DeleteCarHandler)
+	engine.POST("/modify_car", server.ModifyCarsHandler)
 	engine.POST("/add_cars", server.AddCarsHandler)
 
 	port := ":" + strconv.Itoa(server.Config.Port)
