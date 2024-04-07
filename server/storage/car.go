@@ -1,6 +1,8 @@
 package storage
 
-import "CarCatalog/model"
+import (
+	"CarCatalog/model"
+)
 
 func (s *Storage) AddCars(cars model.AddCarsReq) error {
 	for i := range cars.RegNums {
