@@ -1,11 +1,22 @@
-### Запрос на добавление машины
+### Запрос на удаление машины
+DELETE http://localhost:8080/delete_car?regNum=X123XX123
+
+### Запрос на изменение данных машины
+POST http://localhost:8080/modify_car?regNum=Р123УУ197
+Content-Type: application/json
+
+{
+  "newNum": "У123УУ197",
+  "model": "Vesta",
+  "owner": "8a1a10a8-554f-4d60-99e0-7d409084dc45"
+}
+
+### Запрос на добавление машин
 POST http://localhost:8080/add_cars
 Content-Type: application/json
 
 {
   "regNums": [
-    "А123АА150",
-    "И123ИИ150",
-    "С123СС150"
+    "К123XX123"
   ]
 }
