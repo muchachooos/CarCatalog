@@ -4,7 +4,7 @@ import (
 	"CarCatalog/model"
 	"database/sql"
 	"errors"
-	"strconv"
+	"fmt"
 )
 
 func (s *Storage) AddCars(cars model.AddCarsReq) error {
@@ -90,25 +90,37 @@ func (s *Storage) DeleteCar(regNum string) error {
 func (s *Storage) GetCars(filter model.CarsFilter) ([]model.Car, error) {
 	query := "SELECT * FROM cars WHERE TRUE "
 
+	args := make([]interface{}, 0)
+
+	argsNum := 1
+
 	if filter.Mark != nil {
-		query += " AND mark = " + "'" + *filter.Mark + "'"
+		query += fmt.Sprintf(" AND mark = $%d", argsNum)
+		args = append(args, *filter.Mark)
+		argsNum++
 	}
 
 	if filter.Model != nil {
-		query += " AND model = " + "'" + *filter.Model + "'"
+		query += fmt.Sprintf(" AND model = $%d", argsNum)
+		args = append(args, *filter.Model)
+		argsNum++
 	}
 
 	if filter.Year != nil {
-		query += " AND year = " + "'" + strconv.Itoa(*filter.Year) + "'"
+		query += fmt.Sprintf(" AND year = $%d", argsNum)
+		args = append(args, *filter.Year)
+		argsNum++
 	}
 
 	if filter.Owner != nil {
-		query += " AND owner = " + "'" + *filter.Owner + "'"
+		query += fmt.Sprintf(" AND owner = $%d", argsNum)
+		args = append(args, *filter.Owner)
+		argsNum++
 	}
 
 	var res []model.Car
 
-	err := s.DB.Select(&res, query)
+	err := s.DB.Select(&res, query, args...)
 	if err != nil {
 		return nil, err
 	}
