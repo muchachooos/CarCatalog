@@ -5,6 +5,7 @@ import (
 	"CarCatalog/model"
 	"github.com/gin-gonic/gin"
 	"net/http"
+	"strconv"
 )
 
 func (s *Server) AddCarsHandler(c *gin.Context) {
@@ -33,13 +34,13 @@ func (s *Server) AddCarsHandler(c *gin.Context) {
 }
 
 func (s *Server) ModifyCarsHandler(c *gin.Context) {
-	regNum, ok := c.GetQuery("regNum")
+	regNum, ok := c.GetQuery("reg_num")
 	if regNum == "" || !ok {
 		c.JSON(http.StatusBadRequest, model.Err{Error: "Number is missing"})
 		return
 	}
 
-	var car model.Car
+	var car model.AddParamInCar
 
 	err := parser.ParseBody(c, &car)
 	if err != nil {
@@ -56,6 +57,44 @@ func (s *Server) ModifyCarsHandler(c *gin.Context) {
 	}
 
 	c.Status(http.StatusOK)
+}
+
+func (s *Server) GetCarsHandler(c *gin.Context) {
+	var filter model.CarsFilter
+
+	regNum := c.Query("reg_num")
+	if regNum != "" {
+		filter.RegNum = &regNum
+	}
+
+	mark := c.Query("mark")
+	if mark != "" {
+		filter.Mark = &mark
+	}
+
+	modelCar := c.Query("model")
+	if modelCar != "" {
+		filter.Model = &modelCar
+	}
+
+	yearInStr := c.Query("year")
+	if yearInStr != "" {
+		year, _ := strconv.Atoi(yearInStr)
+		filter.Year = &year
+	}
+
+	owner := c.Query("owner")
+	if owner != "" {
+		filter.Owner = &owner
+	}
+
+	res, err := s.Storage.GetCars(filter)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, model.Err{Error: "Database error: " + err.Error()})
+		return
+	}
+
+	c.JSON(http.StatusOK, res)
 }
 
 func (s *Server) DeleteCarHandler(c *gin.Context) {
