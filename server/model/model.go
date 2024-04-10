@@ -24,11 +24,27 @@ type AddCarsReq struct {
 	RegNums []string `json:"regNums"`
 }
 
-type Car struct {
-	RegNum string  `db:"regNum" json:"regNum"`
-	NewNum *string `db:"newNum" json:"newNum"`
+type AddParamInCar struct {
+	NewNum *string `json:"newNum"`
+	RegNum string  `db:"reg_num" json:"regNum"`
 	Mark   *string `db:"mark" json:"mark"`
 	Model  *string `db:"model" json:"model"`
 	Year   *int    `db:"year" json:"year"`
 	Owner  *string `db:"owner" json:"owner"`
+}
+
+type Car struct {
+	RegNum string  `db:"reg_num" json:"regNum"`
+	Mark   *string `db:"mark" json:"mark"`
+	Model  *string `db:"model" json:"model"`
+	Year   *int    `db:"year" json:"year"`
+	Owner  *string `db:"owner" json:"owner"`
+}
+
+type CarsFilter struct {
+	RegNum *string `db:"reg_num"`
+	Mark   *string `db:"mark"`
+	Model  *string `db:"model"`
+	Year   *int    `db:"year"`
+	Owner  *string `db:"owner"`
 }
